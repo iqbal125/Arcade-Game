@@ -10,8 +10,9 @@ var Enemy = function(x, y) {
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
-};
+    this.speed = Math.random()*100 + 50;
 
+}
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -19,8 +20,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-
-    this.x += (15 + this.x) * dt;
+    this.x = this.x + dt * this.speed
     if (this.x > 503) {
       this.x = 0;
     }
@@ -52,6 +52,15 @@ var Player = function (x,y) {
       this.y = 400;
   };
 
+
+  Player.prototype.collsion = function () {
+    for (var i = 0; i < allEnemies.length; i++) {
+      if(allEnemies[i].x >= (this.x + 55) && allEnemies[i].x <= (this.x + 55) && (this.y === 100 || this.y === 200 || this.y === 300)) {
+        alert("Collision!")
+        this.reset();
+      }
+    }
+  }
 
   Player.prototype.render = function(dt) {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);

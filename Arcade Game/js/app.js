@@ -1,6 +1,4 @@
 // Enemies our player must avoid
-
-
 var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -10,7 +8,8 @@ var Enemy = function(x, y) {
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
-    this.speed = Math.random()*100 + 50;
+    //TO generate random speed of enemies
+    this.speed = Math.random() * 100 + 50;
 
 }
 // Update the enemy's position, required method for game
@@ -19,10 +18,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-
+    //Provides Movement for enemies
     this.x = this.x + dt * this.speed
+    //Prevents enemies from going offscreen
     if (this.x > 503) {
-      this.x = 0;
+        this.x = 0;
     }
 
 };
@@ -35,59 +35,69 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function (x,y) {
-  this.x = x;
-  this.y = y;
-  this.sprite = 'images/char-boy.png';
+var Player = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/char-boy.png';
 
-
-  Player.prototype.update = function(dt) {
-      if (this.y < 11) {
-      alert("YOU WIN!");
-      this.reset();
-    }
-  };
-  Player.prototype.reset = function () {
-      this.x = 200;
-      this.y = 400;
-  };
-
-
-  Player.prototype.collsion = function () {
-    for (var i = 0; i < allEnemies.length; i++) {
-      if(allEnemies[i].x >= (this.x + 55) && allEnemies[i].x <= (this.x + 55) && (this.y === 100 || this.y === 200 || this.y === 300)) {
-        alert("Collision!")
-        this.reset();
-      }
-    }
-  }
-
-  Player.prototype.render = function(dt) {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //Alerts player when they reach the water
+    Player.prototype.update = function(dt) {
+        if (this.y < 11) {
+            alert("YOU WIN!");
+            this.reset();
+        }
+        //Calls collsion function
+        this.collision();
+    };
+    //Starting Position for the player and resets game
+    Player.prototype.reset = function() {
+        this.x = 200;
+        this.y = 400;
     };
 
-  Player.prototype.handleInput = function (allowedKeys) {
-    switch (allowedKeys) {
-      case "left":
-      if (this.x > 10) {
-        this.x -= 50;
-      } break;
-      case "right":
-      if (this.x < 390) {
-        this.x += 50;
-      } break;
-      case "up":
-      if (this.y >= 10) {
-        this.y -= 50;
-      } break;
-      case "down":
-      if (this.y < 400) {
-        this.y += 50;
-      } break;
+    //Collision function, compares x and y of enemy and player to determne a collision.
+    Player.prototype.collision = function() {
+        for (var i = 0; i < allEnemies.length; i++) {
+            if (!(allEnemies[i].y + 50 < this.y ||
+                    allEnemies[i].y > this.y + 50 ||
+                    allEnemies[i].x + 50 < this.x ||
+                    allEnemies[i].x > this.x + 50)) {
+                alert("Collision!")
+                //Resets game after collision
+                this.reset();
+            }
+        }
     }
-  };
-};
 
+    Player.prototype.render = function(dt) {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
+    //Controls player movement and distance with allowedKeys
+    Player.prototype.handleInput = function(allowedKeys) {
+        switch (allowedKeys) {
+            case "left":
+                if (this.x > 10) {
+                    this.x -= 50;
+                }
+                break;
+            case "right":
+                if (this.x < 390) {
+                    this.x += 50;
+                }
+                break;
+            case "up":
+                if (this.y >= 10) {
+                    this.y -= 50;
+                }
+                break;
+            case "down":
+                if (this.y < 400) {
+                    this.y += 50;
+                }
+                break;
+        }
+    };
+};
 
 
 

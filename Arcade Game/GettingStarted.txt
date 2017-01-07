@@ -1,0 +1,13 @@
+Getting Started
+
+Step 1 
+Download all the files.
+
+Step 2
+**Do not** alter any of the files or folders.
+
+Step 3
+Double Left-click on index.html file. 
+
+Step 4
+Game should automatically launch in web browser.
